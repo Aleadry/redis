@@ -5,6 +5,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.TimeUnit;
+
 
 @RestController
 public class TestController {
@@ -42,5 +44,23 @@ public class TestController {
     	return "删除成功";
 
     }
+    private int TimeCount;
+	@RequestMapping("/loginUser")
 
+	public String loginUser(String username,String password){
+		String TimeCount = template.opsForValue().get("tim");
+		int num=Integer.parseInt(TimeCount);
+		if(num<3){
+			if(username=="admin"&&password=="123456"){
+				return "Login Success";
+			}else{
+				num+=1;
+				template.opsForValue().set("tim", num+"");
+				template.expire("tim",300, TimeUnit.SECONDS);
+				return "Login Failed";
+			}
+		}
+		return "Login Time Over";
+
+	}
 }

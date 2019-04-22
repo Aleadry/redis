@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * @author:nihao
+ */
 @RestController
 public class UserController {
 	
@@ -20,7 +23,7 @@ public class UserController {
     }
 	
 	@RequestMapping("/deleteUser")
-	public String deleteUser(String id){
+	public String deleteUser(int id){
 		userService.deleteUser(id);
 		return "执行删除";
 	}
@@ -36,6 +39,11 @@ public class UserController {
 		User user = userService.getUserNokey(id);
 		return user;
 	}
-	
+    @RequestMapping("/updateUser")
+    public String updateUser(int id,int age){
+        userService.deleteUser(id);
+        userService.getUser(id+"",age);
+        return "执行更新";
+    }
 
 }
